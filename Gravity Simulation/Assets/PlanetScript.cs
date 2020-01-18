@@ -11,7 +11,7 @@ public class PlanetScript : MonoBehaviour
 	public Rigidbody planetRigidbody;
 	private float planetMass = 10.0f;
 	private float sunMass = 1000000000.0f;
-	Vector3 startVelocity=new Vector3 (0f,20f,0f);
+	Vector3 startVelocity=new Vector3 (0f,10f,0f);
 
 	// Use this for initialization
 	void Start () {
@@ -36,8 +36,10 @@ public class PlanetScript : MonoBehaviour
         float G = 6.67f*Mathf.Pow(10,-11);
         //F = G*m*m / r^2
         float force = G*sunMass*planetMass / distanceSquared;
+        //Get the heading
+        Vector3 heading = (sunPosition-planetPosition);
         //Turn the force from just a value into a 3D vector with direction
-        Vector3 forceWithDirection = (force*(sunPosition-planetPosition));
+        Vector3 forceWithDirection = (force*(heading/heading.magnitude));
         //Return Force
 		return (forceWithDirection);
 	}

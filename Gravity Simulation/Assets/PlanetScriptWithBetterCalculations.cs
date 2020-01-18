@@ -10,7 +10,7 @@ public class PlanetScriptWithBetterCalculations : MonoBehaviour
     private Vector3 planetPosition;
 	public Rigidbody planetRigidbody;
 	private float planetMass = 10000.0f;
-	private float sunMass = 100000000000.0f;
+	private float sunMass = 10000000000000.0f;
 	Vector3 startVelocity=new Vector3 (0f,5f,0f);
 
 	Vector3 originalPosition;
@@ -26,7 +26,7 @@ public class PlanetScriptWithBetterCalculations : MonoBehaviour
     
 	void FixedUpdate () {
         //The time interval we calculate the position change for
-		float time = 0.001f;
+		float time = 0.005f;
         //Position of the planet before it's moved
 		originalPosition = planet.transform.position;
         //Acceleration of the planet is the force diveded by the mass
@@ -49,12 +49,16 @@ public class PlanetScriptWithBetterCalculations : MonoBehaviour
         planetPosition = planet.transform.position;
         //Distance between the objects (r)
 		float distance = Vector3.Distance (sunPosition, planetPosition);
+        //Distance squared (r^2)
+        float distanceSquared = distance*distance;
         //Gravitational Constant (G)
         float G = 6.67f*Mathf.Pow(10,-11);
         //A = G*m* / r^2
-        float force = G*sunMass*planetMass / distance*distance;
+        float force = G*sunMass*planetMass / distanceSquared;
+        //Get the heading
+        Vector3 heading = (sunPosition-planetPosition);
         //Turn the force from just a value into a 3D vector with direction
-        Vector3 forceWithDirection = (force*(sunPosition-planetPosition));
+        Vector3 forceWithDirection = (force*(heading.normalized));
         //Return Force
 		return (forceWithDirection);
 	}
